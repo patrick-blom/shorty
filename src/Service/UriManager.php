@@ -50,7 +50,7 @@ final class UriManager
     {
         $hash = sha1($request->getUrl());
 
-        $uri = $this->validatePutUril(
+        $uri = $this->validatePutUri(
             new ValidateUriRequest($hash)
         );
 
@@ -72,7 +72,7 @@ final class UriManager
      * @return Uri|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    private function validatePutUril(ValidateUriRequest $request): ?Uri
+    private function validatePutUri(ValidateUriRequest $request): ?Uri
     {
         return $this->uriRepository->findUriByShortOriginalHash(
             $request->getHash()
