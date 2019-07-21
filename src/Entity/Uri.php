@@ -1,11 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UriRepository")
+ * @ORM\Table( name="uri", indexes={
+ *  @ORM\Index(name="create_idx", columns={"url_hash"}),
+ *  @ORM\Index(name="read_idx", columns={"short_code"})
+ * })
  */
 class Uri
 {

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
 use App\Entity\Uri;
@@ -19,32 +21,46 @@ class UriRepository extends ServiceEntityRepository
         parent::__construct($registry, Uri::class);
     }
 
-    // /**
-    //  * @return Uri[] Returns an array of Uri objects
-    //  */
-    /*
-    public function findByExampleField($value)
+    /**
+     * @param string $shortCode
+     *
+     * @return Uri|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findUriByShortCode(string $shortCode): ?Uri
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->orderBy('u.id', 'ASC')
-            ->setMaxResults(10)
-            ->getQuery()
-            ->getResult()
-        ;
+        return $this->createQueryBuilder('uri')
+                    ->andWhere('uri.shortCode = :val')
+                    ->setParameter('val', $shortCode)
+                    ->getQuery()
+                    ->getOneOrNullResult();
     }
-    */
 
-    /*
-    public function findOneBySomeField($value): ?Uri
+    /**
+     * @param string $UrlHash
+     *
+     * @return Uri|null
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findUriByShortOriginalHash(string $UrlHash): ?Uri
     {
-        return $this->createQueryBuilder('u')
-            ->andWhere('u.exampleField = :val')
-            ->setParameter('val', $value)
-            ->getQuery()
-            ->getOneOrNullResult()
-        ;
+        return $this->createQueryBuilder('uri')
+                    ->andWhere('uri.UrlHash = :val')
+                    ->setParameter('val', $UrlHash)
+                    ->getQuery()
+                    ->getOneOrNullResult();
     }
-    */
+
+    /**
+     * @param Uri $entity
+     *
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    public function saveUri(Uri $entity): void
+    {
+        $manager = $this->getEntityManager();
+        $manager->persist($entity);
+        $manager->flush();
+    }
 }
