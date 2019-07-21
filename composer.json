@@ -13,7 +13,10 @@
         "symfony/yaml": "4.3.*"
     },
     "require-dev": {
-        "symfony/maker-bundle": "^1.12"
+        "phpmd/phpmd": "^2.6",
+        "phpstan/phpstan": "^0.11.12",
+        "symfony/maker-bundle": "^1.12",
+        "symfony/test-pack": "^1.0"
     },
     "config": {
         "preferred-install": {
