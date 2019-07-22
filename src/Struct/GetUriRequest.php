@@ -28,6 +28,4 @@ final class GetUriRequest
     {
         return $this->hash;
     }
-
-
 }

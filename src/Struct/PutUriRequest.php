@@ -54,5 +54,4 @@ final class PutUriRequest
     {
         return $this->shortCode;
     }
-
 }

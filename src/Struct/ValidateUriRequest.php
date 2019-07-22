@@ -28,5 +28,4 @@ final class ValidateUriRequest
     {
         return $this->hash;
     }
-
 }
