@@ -12,10 +12,10 @@ final class PutUriRequestFactory
 {
     /**
      * @param Request $request
-     *
      * @return PutUriRequest
+     * @throws RequestDoesNotContainAValidUrlException
      */
-    public static function fromDirtyRequestContent(Request $request)
+    public function fromDirtyRequestContent(Request $request): PutUriRequest
     {
         $url = filter_var($request->getContent(), FILTER_VALIDATE_URL);
 

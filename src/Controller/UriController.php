@@ -12,8 +12,6 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\Exception\BadRequestHttpException;
-use Symfony\Component\HttpKernel\Exception\HttpException;
 use Symfony\Component\Routing\Annotation\Route;
 
 class UriController extends AbstractController
@@ -55,17 +53,22 @@ class UriController extends AbstractController
      */
     public function putUri(Request $request, UriManager $manager, BasicAuthentication $authentication)
     {
-        $token = $request->headers->get('authorization');
+        $badRequestResponse = new Response(
+            Response::$statusTexts[Response::HTTP_BAD_REQUEST],
+            Response::HTTP_BAD_REQUEST
+        );
+
+        $token = $request->headers->get('authorization', '');
         if (false === $authentication->validateTokenAuthentication($token)) {
-            throw new BadRequestHttpException();
+            return $badRequestResponse;
         }
 
         try {
-            $purUriRequest = PutUriRequestFactory::fromDirtyRequestContent($request);
-            $uriEntity     = $manager->putUri($purUriRequest);
-            $statusText    = $uriEntity->getShortCode();
+            $purUriRequest = (new PutUriRequestFactory)->fromDirtyRequestContent($request);
+            $uriEntity = $manager->putUri($purUriRequest);
+            $statusText = $uriEntity->getShortCode();
         } catch (Exception $exception) {
-            throw new BadRequestHttpException();
+            return $badRequestResponse;
         }
 
         return new Response(
@@ -77,8 +80,11 @@ class UriController extends AbstractController
     /**
      * @Route("/", methods={"GET","HEAD","POST","DELETE","OPTIONS","PATCH","CONNECT","PURGE","TRACE"})
      */
-    public function index(): void
+    public function index(): Response
     {
-        throw new HttpException(418, 'Tea Time!');
+        return new Response(
+            Response::$statusTexts[Response::HTTP_I_AM_A_TEAPOT],
+            Response::HTTP_I_AM_A_TEAPOT
+        );
     }
 }
