@@ -1,0 +1,7 @@
+runtime: php72
+
+env_variables:
+  APP_ENV: "prod"
+  APP_SECRET: YOUR_APP_SECRET
+  DATABASE_URL: "sqlite:///%kernel.project_dir%/var/app.db"
+  PUT_TOKEN: 5449f071773861dca4d3b459aa79fcf5
