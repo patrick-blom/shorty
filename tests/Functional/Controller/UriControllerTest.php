@@ -44,7 +44,7 @@ class UriControllerTest extends WebTestCase
         $client = static::createClient();
         $client->request('GET', '/foobarbz');
 
-        $this->assertEquals('302', $client->getResponse()->getStatusCode());
+        $this->assertEquals('301', $client->getResponse()->getStatusCode());
     }
 
     public function testGetUriActionWithShortCode()
@@ -66,7 +66,7 @@ class UriControllerTest extends WebTestCase
         $shortCode = $client->getResponse()->getContent();
 
         $client->request('GET', '/' . $shortCode);
-        $this->assertEquals('302', $client->getResponse()->getStatusCode());
+        $this->assertEquals('301', $client->getResponse()->getStatusCode());
 
         /** @var  RedirectResponse $response */
         $response = $client->getResponse();

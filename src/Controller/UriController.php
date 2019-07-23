@@ -25,7 +25,7 @@ class UriController extends AbstractController
      */
     public function getUri(Request $request, UriManager $manager): RedirectResponse
     {
-        $response = new RedirectResponse('/');
+        $response = new RedirectResponse('/', Response::HTTP_MOVED_PERMANENTLY);
 
         if ($shortCode = $request->attributes->get('short_code')) {
             try {
@@ -65,8 +65,8 @@ class UriController extends AbstractController
 
         try {
             $purUriRequest = (new PutUriRequestFactory)->fromDirtyRequestContent($request);
-            $uriEntity = $manager->putUri($purUriRequest);
-            $statusText = $uriEntity->getShortCode();
+            $uriEntity     = $manager->putUri($purUriRequest);
+            $statusText    = $uriEntity->getShortCode();
         } catch (Exception $exception) {
             return $badRequestResponse;
         }
