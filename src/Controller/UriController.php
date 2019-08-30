@@ -46,8 +46,9 @@ class UriController extends AbstractController
     /**
      * @Route("/", methods={"PUT"})
      *
-     * @param Request $request
-     * @param UriManager $manager
+     * @param Request             $request
+     * @param UriManager          $manager
+     * @param BasicAuthentication $authentication
      *
      * @return Response
      */
