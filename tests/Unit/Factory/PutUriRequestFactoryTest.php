@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\Request;
 
 class PutUriRequestFactoryTest extends TestCase
 {
-    public function testUrlCreatedFromRequest()
+    public function testUrlCreatedFromRequest(): void
     {
         $content = 'https://www.foo.bar';
         $request = (new PutUriRequestFactory())->fromDirtyRequestContent(
@@ -21,7 +21,7 @@ class PutUriRequestFactoryTest extends TestCase
         $this->assertSame('https://www.foo.bar', $request->getUrl());
     }
 
-    public function testCreatingUrlOnRubbish()
+    public function testCreatingUrlOnRubbish(): void
     {
         $this->expectException(RequestDoesNotContainAValidUrlException::class);
 
@@ -29,6 +29,5 @@ class PutUriRequestFactoryTest extends TestCase
         (new PutUriRequestFactory())->fromDirtyRequestContent(
             new Request([], [], [], [], [], [], $content)
         );
-
     }
 }

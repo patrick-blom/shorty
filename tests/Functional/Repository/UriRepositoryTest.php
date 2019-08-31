@@ -18,21 +18,7 @@ class UriRepositoryTest extends WebTestCase
      */
     private $entityManager;
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp()
-    {
-        $kernel = self::bootKernel();
-
-        $this->initDatabase($kernel);
-
-        $this->entityManager = $kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
-    }
-
-    public function testRepositoryCanBeInstantiated()
+    public function testRepositoryCanBeInstantiated(): void
     {
         $repository = $this->entityManager->getRepository(Uri::class);
         $this->assertInstanceOf(UriRepository::class, $repository);
@@ -43,7 +29,7 @@ class UriRepositoryTest extends WebTestCase
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function testNewEntityCanBeSavedThroughRepository()
+    public function testNewEntityCanBeSavedThroughRepository(): void
     {
         /** @var UriRepository $repository */
         $repository = $this->entityManager->getRepository(Uri::class);
@@ -69,7 +55,7 @@ class UriRepositoryTest extends WebTestCase
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function testUriCanBeFoundByShortCode()
+    public function testUriCanBeFoundByShortCode(): void
     {
         $this->createDemoRecord();
 
@@ -86,11 +72,30 @@ class UriRepositoryTest extends WebTestCase
     }
 
     /**
+     * @throws \Doctrine\ORM\ORMException
+     * @throws \Doctrine\ORM\OptimisticLockException
+     */
+    private function createDemoRecord(): void
+    {
+        /** @var UriRepository $repository */
+        $repository = $this->entityManager->getRepository(Uri::class);
+
+        $putRequest = new PutUriRequest('www.bar.com');
+
+        $entity = new Uri();
+        $entity->setOriginalUrl($putRequest->getUrl());
+        $entity->setUrlHash($putRequest->getUrlHash());
+        $entity->setShortCode($putRequest->getShortCode());
+
+        $repository->saveUri($entity);
+    }
+
+    /**
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
      */
-    public function testUriCanBeFoundByUrlHash()
+    public function testUriCanBeFoundByUrlHash(): void
     {
         $this->createDemoRecord();
 
@@ -109,19 +114,23 @@ class UriRepositoryTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    protected function tearDown()
+    protected function setUp()
     {
-        parent::tearDown();
+        $kernel = self::bootKernel();
 
-        $this->entityManager->close();
-        $this->entityManager = null; // avoid memory leaks
+        $this->initDatabase($kernel);
+
+        $this->entityManager = $kernel->getContainer()
+                                      ->get('doctrine')
+                                      ->getManager();
     }
 
     /**
      * @param KernelInterface $kernel
+     *
      * @throws \Exception
      */
-    private function initDatabase(KernelInterface $kernel)
+    private function initDatabase(KernelInterface $kernel): void
     {
         $application = new Application($kernel);
         $application->setAutoExit(false);
@@ -143,30 +152,21 @@ class UriRepositoryTest extends WebTestCase
 
         // run migrations
         $input = new ArrayInput([
-            'command' => 'doctrine:migrations:migrate',
+            'command'          => 'doctrine:migrations:migrate',
             '--no-interaction' => true
 
         ]);
         $application->run($input, new NullOutput());
-
     }
 
     /**
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * {@inheritDoc}
      */
-    private function createDemoRecord()
+    protected function tearDown()
     {
-        /** @var UriRepository $repository */
-        $repository = $this->entityManager->getRepository(Uri::class);
+        parent::tearDown();
 
-        $putRequest = new PutUriRequest('www.bar.com');
-
-        $entity = new Uri();
-        $entity->setOriginalUrl($putRequest->getUrl());
-        $entity->setUrlHash($putRequest->getUrlHash());
-        $entity->setShortCode($putRequest->getShortCode());
-
-        $repository->saveUri($entity);
+        $this->entityManager->close();
+        $this->entityManager = null; // avoid memory leaks
     }
 }

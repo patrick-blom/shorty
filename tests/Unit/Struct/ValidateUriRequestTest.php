@@ -7,9 +7,9 @@ use PHPUnit\Framework\TestCase;
 
 class ValidateUriRequestTest extends TestCase
 {
-    public function testClassCanBeInstantiated()
+    public function testClassCanBeInstantiated(): void
     {
-        $string = 'IAmAHash';
+        $string  = 'IAmAHash';
         $request = new ValidateUriRequest($string);
         $this->assertSame('IAmAHash', $request->getHash());
     }

@@ -16,22 +16,7 @@ class UriControllerTest extends WebTestCase
      */
     private $entityManager;
 
-    /**
-     * {@inheritDoc}
-     */
-    protected function setUp()
-    {
-        $kernel = self::bootKernel();
-
-        $this->initDatabase($kernel);
-
-        $this->entityManager = $kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
-    }
-
-
-    public function testIndexAction()
+    public function testIndexAction(): void
     {
         $client = static::createClient();
         $client->request('GET', '/');
@@ -39,7 +24,7 @@ class UriControllerTest extends WebTestCase
         $this->assertEquals('418', $client->getResponse()->getStatusCode());
     }
 
-    public function testGetUriActionWithInvalidShortCode()
+    public function testGetUriActionWithInvalidShortCode(): void
     {
         $client = static::createClient();
         $client->request('GET', '/foobarbz');
@@ -47,7 +32,7 @@ class UriControllerTest extends WebTestCase
         $this->assertEquals('301', $client->getResponse()->getStatusCode());
     }
 
-    public function testGetUriActionWithShortCode()
+    public function testGetUriActionWithShortCode(): void
     {
         $url = 'https://www.example.com';
 
@@ -74,7 +59,7 @@ class UriControllerTest extends WebTestCase
         $this->assertEquals($url, $response->getTargetUrl());
     }
 
-    public function testPutUriAction()
+    public function testPutUriAction(): void
     {
         $url = 'https://www.example.com';
 
@@ -91,7 +76,7 @@ class UriControllerTest extends WebTestCase
         $this->assertEquals(201, $client->getResponse()->getStatusCode());
     }
 
-    public function testPutUriActionWithNoCredentials()
+    public function testPutUriActionWithNoCredentials(): void
     {
         $url = 'https://www.example.com';
 
@@ -108,9 +93,9 @@ class UriControllerTest extends WebTestCase
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
     }
 
-    public function testPutUriActionWithNoVaildUrl()
+    public function testPutUriActionWithNoVaildUrl(): void
     {
-        $url = 'this is no a url';
+        $url = 'this is not a url';
 
         $client = static::createClient();
         $client->request(
@@ -128,19 +113,23 @@ class UriControllerTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    protected function tearDown()
+    protected function setUp()
     {
-        parent::tearDown();
+        $kernel = self::bootKernel();
 
-        $this->entityManager->close();
-        $this->entityManager = null; // avoid memory leaks
+        $this->initDatabase($kernel);
+
+        $this->entityManager = $kernel->getContainer()
+                                      ->get('doctrine')
+                                      ->getManager();
     }
 
     /**
      * @param KernelInterface $kernel
+     *
      * @throws \Exception
      */
-    private function initDatabase(KernelInterface $kernel)
+    private function initDatabase(KernelInterface $kernel): void
     {
         $application = new Application($kernel);
         $application->setAutoExit(false);
@@ -162,13 +151,22 @@ class UriControllerTest extends WebTestCase
 
         // run migrations
         $input = new ArrayInput([
-            'command' => 'doctrine:migrations:migrate',
+            'command'          => 'doctrine:migrations:migrate',
             '--no-interaction' => true
 
         ]);
         $application->run($input, new NullOutput());
-
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $this->entityManager->close();
+        $this->entityManager = null; // avoid memory leaks
+    }
 }
 

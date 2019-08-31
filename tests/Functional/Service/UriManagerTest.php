@@ -19,6 +19,76 @@ class UriManagerTest extends WebTestCase
      */
     private $entityManager;
 
+    public function testUriManagerCanSaveAEntity(): void
+    {
+        $repository = $this->entityManager->getRepository(Uri::class);
+
+        $request = new PutUriRequest('www.foo.com');
+        $manager = new UriManager($repository);
+        $entity  = $manager->putUri($request);
+
+        $this->assertSame($entity->getOriginalUrl(), $request->getUrl());
+    }
+
+    public function testUriManagerWillNotCreateDuplicatedEntries(): void
+    {
+        $repository = $this->entityManager->getRepository(Uri::class);
+        $manager    = new UriManager($repository);
+
+        $firstRequest = new PutUriRequest('www.foo.com');
+        $firstEntity  = $manager->putUri($firstRequest);
+
+        $secondRequest = new PutUriRequest('www.foo.com');
+        $secondEntity  = $manager->putUri($secondRequest);
+
+        $this->assertSame($firstRequest->getUrl(), $firstEntity->getOriginalUrl());
+        $this->assertSame($secondRequest->getUrl(), $secondEntity->getOriginalUrl());
+        $this->assertSame($firstEntity->getId(), $secondEntity->getId());
+    }
+
+    public function testUriManagerCanFindEntityByShortCode(): void
+    {
+        $repository = $this->entityManager->getRepository(Uri::class);
+
+        $putRequest    = new PutUriRequest('www.foo.com');
+        $manager       = new UriManager($repository);
+        $createdEntity = $manager->putUri($putRequest);
+
+        $getRequest    = new GetUriRequest($putRequest->getShortCode());
+        $fetchedEntity = $manager->getUri($getRequest);
+
+        $this->assertSame($createdEntity->getId(), $fetchedEntity->getId());
+    }
+
+    public function testGetGuaranteedUriWillReturnTheDefaultUriIfNoEntryIsFound(): void
+    {
+        $getRequest = new GetUriRequest('NoNoCode');
+
+        $repository = $this->entityManager->getRepository(Uri::class);
+        $manager    = new UriManager($repository);
+
+        /** @var Uri $uri */
+        $uri = $manager->getGuaranteedUri($getRequest);
+
+        $this->assertSame('/', $uri->getOriginalUrl());
+    }
+
+    public function testGetGuaranteedUriWillReturnAnExpectedUri(): void
+    {
+        $repository = $this->entityManager->getRepository(Uri::class);
+
+        $putRequest    = new PutUriRequest('www.foo.com');
+        $manager       = new UriManager($repository);
+        $createdEntity = $manager->putUri($putRequest);
+
+        $getRequest    = new GetUriRequest($putRequest->getShortCode());
+        /** @var Uri $uri */
+        $uri = $manager->getGuaranteedUri($getRequest);
+
+        $this->assertSame($createdEntity->getShortCode(), $uri->getShortCode());
+        $this->assertSame($createdEntity->getOriginalUrl(), $uri->getOriginalUrl());
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -29,67 +99,16 @@ class UriManagerTest extends WebTestCase
         $this->initDatabase($kernel);
 
         $this->entityManager = $kernel->getContainer()
-            ->get('doctrine')
-            ->getManager();
-    }
-
-    public function testUriManagerCanSaveAEntity()
-    {
-        $repository = $this->entityManager->getRepository(Uri::class);
-
-        $request = new PutUriRequest('www.foo.com');
-        $manager = new UriManager($repository);
-        $entity = $manager->putUri($request);
-
-        $this->assertSame($entity->getOriginalUrl(), $request->getUrl());
-    }
-
-    public function testUriManagerWillNotCreateDuplicatedEntries()
-    {
-        $repository = $this->entityManager->getRepository(Uri::class);
-        $manager = new UriManager($repository);
-
-        $firstRequest = new PutUriRequest('www.foo.com');
-        $firstEntity = $manager->putUri($firstRequest);
-
-        $secondRequest = new PutUriRequest('www.foo.com');
-        $secondEntity = $manager->putUri($secondRequest);
-
-        $this->assertSame($firstRequest->getUrl(),$firstEntity->getOriginalUrl());
-        $this->assertSame($secondRequest->getUrl(),$secondEntity->getOriginalUrl());
-        $this->assertSame($firstEntity->getId(), $secondEntity->getId());
-    }
-
-    public function testUriManagerCanFindEntityByShortCode()
-    {
-        $repository = $this->entityManager->getRepository(Uri::class);
-
-        $putRequest = new PutUriRequest('www.foo.com');
-        $manager = new UriManager($repository);
-        $createdEntity = $manager->putUri($putRequest);
-
-        $getRequest= new GetUriRequest($putRequest->getShortCode());
-        $fetchedEntity = $manager->getUri($getRequest);
-
-        $this->assertSame($createdEntity->getId(), $fetchedEntity->getId());
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    protected function tearDown()
-    {
-        parent::tearDown();
-
-        $this->entityManager->close();
-        $this->entityManager = null; // avoid memory leaks
+                                      ->get('doctrine')
+                                      ->getManager();
     }
 
     /**
      * @param KernelInterface $kernel
+     *
      * @throws \Exception
      */
-    private function initDatabase(KernelInterface $kernel)
+    private function initDatabase(KernelInterface $kernel): void
     {
         $application = new Application($kernel);
         $application->setAutoExit(false);
@@ -111,11 +130,21 @@ class UriManagerTest extends WebTestCase
 
         // run migrations
         $input = new ArrayInput([
-            'command' => 'doctrine:migrations:migrate',
+            'command'          => 'doctrine:migrations:migrate',
             '--no-interaction' => true
 
         ]);
         $application->run($input, new NullOutput());
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    protected function tearDown()
+    {
+        parent::tearDown();
+
+        $this->entityManager->close();
+        $this->entityManager = null; // avoid memory leaks
     }
 }

@@ -33,7 +33,6 @@ class UriController extends AbstractController
         try {
             $uri = $manager->getGuaranteedUri(new GetUriRequest($shortCode));
             return $this->createRedirectResponseTo($uri->getOriginalUrl());
-
         } catch (NonUniqueResultException $exception) {
         }
 

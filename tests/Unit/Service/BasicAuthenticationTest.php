@@ -7,13 +7,13 @@ use PHPUnit\Framework\TestCase;
 
 class BasicAuthenticationTest extends TestCase
 {
-    public function testIfTokenValidationSuccessfull()
+    public function testIfTokenValidationSuccessful(): void
     {
         $validation = new BasicAuthentication('foobar');
         $this->assertTrue($validation->validateTokenAuthentication('foobar'));
     }
 
-    public function testIfTokenValidationNotSuccessfull()
+    public function testIfTokenValidationNotSuccessful(): void
     {
         $validation = new BasicAuthentication('foobar');
         $this->assertFalse($validation->validateTokenAuthentication('barfoo'));
