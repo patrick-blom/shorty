@@ -31,13 +31,9 @@ class UriController extends AbstractController
         }
 
         try {
-            $uri = $manager->getUri(
-                new GetUriRequest($shortCode)
-            );
+            $uri = $manager->getGuaranteedUri(new GetUriRequest($shortCode));
+            return $this->createRedirectResponseTo($uri->getOriginalUrl());
 
-            if (null !== $uri) {
-                return $this->createRedirectResponseTo($uri->getOriginalUrl());
-            }
         } catch (NonUniqueResultException $exception) {
         }
 
