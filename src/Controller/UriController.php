@@ -53,14 +53,9 @@ class UriController extends AbstractController
      */
     public function putUri(Request $request, UriManager $manager, BasicAuthentication $authentication)
     {
-        $badRequestResponse = new Response(
-            Response::$statusTexts[Response::HTTP_BAD_REQUEST],
-            Response::HTTP_BAD_REQUEST
-        );
-
         $token = $request->headers->get('authorization', '');
         if (false === $authentication->validateTokenAuthentication($token)) {
-            return $badRequestResponse;
+            return $this->createBadRequestResponse();
         }
 
         try {
@@ -68,7 +63,7 @@ class UriController extends AbstractController
             $uriEntity     = $manager->putUri($purUriRequest);
             $statusText    = $uriEntity->getShortCode();
         } catch (Exception $exception) {
-            return $badRequestResponse;
+            return $this->createBadRequestResponse();
         }
 
         return new Response(
@@ -85,6 +80,19 @@ class UriController extends AbstractController
         return new Response(
             Response::$statusTexts[Response::HTTP_I_AM_A_TEAPOT],
             Response::HTTP_I_AM_A_TEAPOT
+        );
+    }
+
+    /**
+     * Create a bad request response
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    private function createBadRequestResponse(): Response
+    {
+        return new Response(
+            Response::$statusTexts[Response::HTTP_BAD_REQUEST],
+            Response::HTTP_BAD_REQUEST
         );
     }
 }
