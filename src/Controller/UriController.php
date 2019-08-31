@@ -25,22 +25,19 @@ class UriController extends AbstractController
      */
     public function getUri(Request $request, UriManager $manager): RedirectResponse
     {
-        $response = new RedirectResponse('/', Response::HTTP_MOVED_PERMANENTLY);
-
-        if ($shortCode = $request->attributes->get('short_code')) {
-            try {
-                $uri = $manager->getUri(
-                    new GetUriRequest($shortCode)
-                );
-
-                if (null !== $uri) {
-                    $response->setTargetUrl($uri->getOriginalUrl());
-                }
-            } catch (NonUniqueResultException $exception) {
-            }
+        $shortCode = $request->attributes->get('short_code');
+        if ($shortCode === null) {
+            return $this->createRedirectResponseTo('/');
         }
 
-        return $response;
+        try {
+            $uri = $manager->getGuaranteedUri(new GetUriRequest($shortCode));
+            return $this->createRedirectResponseTo($uri->getOriginalUrl());
+
+        } catch (NonUniqueResultException $exception) {
+        }
+
+        return $this->createRedirectResponseTo('/');
     }
 
     /**
@@ -71,6 +68,17 @@ class UriController extends AbstractController
             $statusText,
             Response::HTTP_CREATED
         );
+    }
+
+    /**
+     * Create redirect response to given uri
+     *
+     * @param string $uri
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    private function createRedirectResponseTo(string $uri): RedirectResponse
+    {
+        return new RedirectResponse($uri, Response::HTTP_MOVED_PERMANENTLY);
     }
 
     /**

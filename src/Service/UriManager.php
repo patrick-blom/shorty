@@ -26,6 +26,27 @@ final class UriManager
     }
 
     /**
+     * Returns an Uri by looking for a hash if nothing is found a default Uri is returned
+     *
+     * @param \App\Struct\GetUriRequest $request
+     * @param string                    $defaultUrl
+     *
+     * @return \App\Entity\Uri
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function getGuaranteedUri(GetUriRequest $request, string $defaultUrl = '/'): Uri
+    {
+        $uri = $this->getUri($request);
+
+        if ($uri === null) {
+            $uri = new Uri();
+            $uri->setOriginalUrl($defaultUrl);
+        }
+
+        return $uri;
+    }
+
+    /**
      * @param GetUriRequest $request
      *
      * @return Uri|null
