@@ -43,8 +43,11 @@ Shorty.
 ### On a real Server
 If you want to use Shorty on a real server just go through the local
 setup steps on your machine except the local PHP server startup. You
-will need the sqlite php extension to interact with the database.
-Further I recommend to enable HTTPS on your server.
+will need the sqlite php extension to interact with the database. Because 
+Shorty uses redirects the `symfony/apache-pack` is pre installed. So if 
+you're using apache2 you're ready to go. For nginx you have to ensure 
+that the redirects are configured correctly and that the `Authorization`
+ header is passed. Further I recommend to enable HTTPS on your server.
 
 ## Usage
 ### First run
