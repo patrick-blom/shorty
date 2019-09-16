@@ -1,9 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Factory\PutUriRequestFactory;
-use App\Service\BasicAuthentication;
+use App\Service\Authentication\TokenAuthenticationInterface;
 use App\Service\UriManager;
 use App\Struct\GetUriRequest;
 use Doctrine\ORM\NonUniqueResultException;
@@ -32,6 +34,7 @@ class UriController extends AbstractController
 
         try {
             $uri = $manager->getGuaranteedUri(new GetUriRequest($shortCode));
+
             return $this->createRedirectResponseTo($uri->getOriginalUrl());
         } catch (NonUniqueResultException $exception) {
         }
@@ -42,16 +45,19 @@ class UriController extends AbstractController
     /**
      * @Route("/", methods={"PUT"})
      *
-     * @param Request             $request
-     * @param UriManager          $manager
-     * @param BasicAuthentication $authentication
+     * @param Request $request
+     * @param UriManager $manager
+     * @param TokenAuthenticationInterface $basicPutAuthentication
      *
      * @return Response
      */
-    public function putUri(Request $request, UriManager $manager, BasicAuthentication $authentication)
-    {
+    public function putUri(
+        Request $request,
+        UriManager $manager,
+        TokenAuthenticationInterface $basicPutAuthentication
+    ): Response {
         $token = $request->headers->get('authorization', '');
-        if (false === $authentication->validateTokenAuthentication($token)) {
+        if (false === $basicPutAuthentication->validateTokenAuthentication($token)) {
             return $this->createBadRequestResponse();
         }
 
@@ -73,6 +79,7 @@ class UriController extends AbstractController
      * Create redirect response to given uri
      *
      * @param string $uri
+     *
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
     private function createRedirectResponseTo(string $uri): RedirectResponse

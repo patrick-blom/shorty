@@ -52,10 +52,9 @@ that the redirects are configured correctly and that the `Authorization`
 ## Usage
 ### First run
 After you setup Shorty successfully you can navigate to your shorting
-TLD (https://you-url.tld). Because there is nothing to for Shorty he
+TLD (https://you-url.tld). Because there is nothing to do for Shorty, he
 will provide you a 418 HTTP Response. This is totally normal and tells
-you that Shorty is going out to have a cup of tea if there is nothing to
-do for him.
+you that Shorty is going out to have a cup of tea if there is some free time.
 
 ### Create a short link
 If you want that Shorty creates a short link for you, you have to send
