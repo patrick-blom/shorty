@@ -4,7 +4,8 @@
 # Put parameters here that don't need to change on each machine where the app is deployed
 # https://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
 parameters:
-    auth_token: '%env(PUT_TOKEN)%'
+    put_token: '%env(PUT_TOKEN)%'
+    delete_token: '%env(DELETE_TOKEN)%'
 services:
     # default configuration for services in *this* file
     _defaults:
@@ -26,4 +27,20 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
     App\Service\BasicAuthentication:
-            arguments: ['%auth_token%']
+            arguments: ['%put_token%']
+
+    App\Service\Authentication\BasicPutAuthentication:
+            arguments: ['%put_token%']
+
+    App\Service\Authentication\BasicDeleteAuthentication:
+            arguments: ['%delete_token%']
+
+    # the ``App\Service\Authentication\BasicDeleteAuthentication`` service will be
+    # injected when an ``App\Service\Authentication\TokenAuthenticationInterface``
+    # type-hint for a ``$basicDeleteAuthentication`` argument is detected.
+    App\Service\Authentication\TokenAuthenticationInterface $basicDeleteAuthentication: '@App\Service\Authentication\BasicDeleteAuthentication'
+
+    # If the argument used for injection does not match, but the
+    # type-hint still matches, the ``App\Service\Authentication\BasicPutAuthentication``
+    # service will be injected.
+    App\Service\Authentication\TokenAuthenticationInterface: '@App\Service\Authentication\BasicPutAuthentication'
