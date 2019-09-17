@@ -3,6 +3,7 @@
 namespace App\Tests\Unit\Struct;
 
 use App\Struct\PutUriRequest;
+use App\Struct\UriHashInterface;
 use PHPUnit\Framework\TestCase;
 
 class PutUriRequestTest extends TestCase
@@ -18,5 +19,6 @@ class PutUriRequestTest extends TestCase
         $this->assertSame($url, $request->getUrl());
         $this->assertEquals(8, strlen($request->getShortCode()));
         $this->assertSame(substr($hash, 0, 8), $request->getShortCode());
+        $this->assertInstanceOf(UriHashInterface::class, $request);
     }
 }
