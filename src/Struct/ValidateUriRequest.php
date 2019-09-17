@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Struct;
 
-final class ValidateUriRequest
+final class ValidateUriRequest implements UriHashInterface
 {
     /**
      * @var string

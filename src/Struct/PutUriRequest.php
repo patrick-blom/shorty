@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Struct;
 
-final class PutUriRequest
+final class PutUriRequest implements UriHashInterface
 {
     /**
      * @var string
@@ -13,7 +13,7 @@ final class PutUriRequest
     /**
      * @var string
      */
-    private $urlHash;
+    private $hash;
     /**
      * @var string
      */
@@ -27,7 +27,7 @@ final class PutUriRequest
     public function __construct(string $url)
     {
         $this->url       = $url;
-        $this->urlHash   = sha1($url);
+        $this->hash   = sha1($url);
         $this->shortCode = substr(sha1($url), 0, 8);
     }
 
@@ -42,9 +42,9 @@ final class PutUriRequest
     /**
      * @return string
      */
-    public function getUrlHash(): string
+    public function getHash(): string
     {
-        return $this->urlHash;
+        return $this->hash;
     }
 
     /**

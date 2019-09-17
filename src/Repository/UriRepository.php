@@ -6,6 +6,7 @@ namespace App\Repository;
 
 use App\Entity\Uri;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\ORMException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
@@ -54,13 +55,36 @@ class UriRepository extends ServiceEntityRepository
     /**
      * @param Uri $entity
      *
-     * @throws \Doctrine\ORM\ORMException
-     * @throws \Doctrine\ORM\OptimisticLockException
+     * @return bool
      */
-    public function saveUri(Uri $entity): void
+    public function saveUri(Uri $entity): bool
     {
-        $manager = $this->getEntityManager();
-        $manager->persist($entity);
-        $manager->flush();
+        try {
+            $manager = $this->getEntityManager();
+            $manager->persist($entity);
+            $manager->flush();
+        } catch (ORMException $exception) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * @param Uri $entity
+     *
+     * @return bool
+     */
+    public function deleteUri(Uri $entity): bool
+    {
+        try {
+            $manager = $this->getEntityManager();
+            $manager->remove($entity);
+            $manager->flush();
+        } catch (ORMException $exception) {
+            return false;
+        }
+
+        return true;
     }
 }

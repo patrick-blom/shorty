@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Struct;
 
-final class GetUriRequest implements UriHashInterface
+final class DeleteUriRequest implements UriHashInterface
 {
     /**
      * @var string
@@ -12,7 +12,7 @@ final class GetUriRequest implements UriHashInterface
     private $hash;
 
     /**
-     * GetUriRequest constructor.
+     * DeleteUriRequest constructor.
      *
      * @param string $hash
      */
