@@ -22,6 +22,30 @@ class UriControllerTest extends WebTestCase
         $client->request('GET', '/');
 
         $this->assertEquals('418', $client->getResponse()->getStatusCode());
+
+        $client->request('POST', '/');
+
+        $this->assertEquals('418', $client->getResponse()->getStatusCode());
+
+        $client->request('PATCH', '/');
+
+        $this->assertEquals('418', $client->getResponse()->getStatusCode());
+
+        $client->request('OPTIONS', '/');
+
+        $this->assertEquals('418', $client->getResponse()->getStatusCode());
+
+        $client->request('CONNECT', '/');
+
+        $this->assertEquals('418', $client->getResponse()->getStatusCode());
+
+        $client->request('PURGE', '/');
+
+        $this->assertEquals('418', $client->getResponse()->getStatusCode());
+
+        $client->request('TRACE', '/');
+
+        $this->assertEquals('418', $client->getResponse()->getStatusCode());
     }
 
     public function testGetUriActionWithInvalidShortCode(): void
