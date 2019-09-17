@@ -118,7 +118,7 @@ class UriController extends AbstractController
      *
      * @param string $uri
      *
-     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     * @return RedirectResponse
      */
     private function createRedirectResponseTo(string $uri): RedirectResponse
     {
@@ -139,7 +139,7 @@ class UriController extends AbstractController
     /**
      * Create a bad request response
      *
-     * @return \Symfony\Component\HttpFoundation\Response
+     * @return Response
      */
     private function createBadRequestResponse(): Response
     {
@@ -154,7 +154,7 @@ class UriController extends AbstractController
      *
      * @return string
      */
-    private function getTokenFromRequestHeader(Request $request)
+    private function getTokenFromRequestHeader(Request $request): string
     {
         return (string)$request->headers->get('authorization', '');
     }
