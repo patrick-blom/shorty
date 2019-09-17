@@ -110,6 +110,64 @@ class UriControllerTest extends WebTestCase
         $this->assertEquals(400, $client->getResponse()->getStatusCode());
     }
 
+    public function testDeleteUriActionWithValidShortCode(): void
+    {
+        $url = 'https://www.delete.me';
+
+        $client = static::createClient();
+        $client->request(
+            'PUT',
+            '/',
+            [],
+            [],
+            ['HTTP_AUTHORIZATION' => '$ecretf0rt3st'],
+            $url
+        );
+
+        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+
+        $hash = $client->getResponse()->getContent();
+
+        $client->request(
+            'DELETE',
+            '/',
+            [],
+            [],
+            ['HTTP_AUTHORIZATION' => '$ecretf0rt3st'],
+            $hash
+        );
+
+        $this->assertEquals(410, $client->getResponse()->getStatusCode());
+        $this->assertEquals('Gone', $client->getResponse()->getContent());
+    }
+
+    public function testDeleteUriActionWithRubbishCode(): void
+    {
+        $client = static::createClient();
+        $client->request(
+            'DELETE',
+            '/',
+            [],
+            [],
+            ['HTTP_AUTHORIZATION' => '$ecretf0rt3st'],
+            'nocode'
+        );
+
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+
+        $client->request(
+            'DELETE',
+            '/',
+            [],
+            [],
+            ['HTTP_AUTHORIZATION' => '$ecretf0rt3st'],
+            '00code00'
+        );
+
+        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+    }
+
+
     /**
      * {@inheritDoc}
      */
