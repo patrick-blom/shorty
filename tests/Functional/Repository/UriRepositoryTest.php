@@ -111,7 +111,7 @@ class UriRepositoryTest extends WebTestCase
         );
     }
 
-    public function testUriCanBeDeletedThroughRepository()
+    public function testUriCanBeDeletedThroughRepository(): void
     {
         $this->createDemoRecord();
 

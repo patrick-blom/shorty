@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Factory\DeleteUriRequestFactory;
 use App\Factory\PutUriRequestFactory;
 use App\Service\Authentication\TokenAuthenticationInterface;
 use App\Service\UriManager;
@@ -56,14 +57,14 @@ class UriController extends AbstractController
         UriManager $manager,
         TokenAuthenticationInterface $basicPutAuthentication
     ): Response {
-        $token = $request->headers->get('authorization', '');
+        $token = $this->getTokenFromRequestHeader($request);
         if (false === $basicPutAuthentication->validateTokenAuthentication($token)) {
             return $this->createBadRequestResponse();
         }
 
         try {
-            $purUriRequest = (new PutUriRequestFactory)->fromDirtyRequestContent($request);
-            $uriEntity     = $manager->putUri($purUriRequest);
+            $putUriRequest = (new PutUriRequestFactory)->fromDirtyRequestContent($request);
+            $uriEntity     = $manager->putUri($putUriRequest);
             $statusText    = $uriEntity->getShortCode();
         } catch (Exception $exception) {
             return $this->createBadRequestResponse();
@@ -74,6 +75,43 @@ class UriController extends AbstractController
             Response::HTTP_CREATED
         );
     }
+
+    /**
+     * @Route("/", methods={"DELETE"})
+     *
+     * @param Request $request
+     * @param UriManager $manager
+     * @param TokenAuthenticationInterface $basicDeleteAuthentication
+     *
+     * @return Response
+     */
+    public function deleteUri(
+        Request $request,
+        UriManager $manager,
+        TokenAuthenticationInterface $basicDeleteAuthentication
+    ): Response {
+        $token = $this->getTokenFromRequestHeader($request);
+        if (false === $basicDeleteAuthentication->validateTokenAuthentication($token)) {
+            return $this->createBadRequestResponse();
+        }
+
+        $response = $this->createBadRequestResponse();
+
+        try {
+            $deleteUriRequest = (new DeleteUriRequestFactory())->fromDirtyRequestContent($request);
+            if ($manager->deleteUri($deleteUriRequest)) {
+                $response = new Response(
+                    Response::$statusTexts[Response::HTTP_GONE],
+                    Response::HTTP_GONE
+                );
+            }
+        } catch (Exception $exception) {
+            return $this->createBadRequestResponse();
+        }
+
+        return $response;
+    }
+
 
     /**
      * Create redirect response to given uri
@@ -88,7 +126,7 @@ class UriController extends AbstractController
     }
 
     /**
-     * @Route("/", methods={"GET","HEAD","POST","DELETE","OPTIONS","PATCH","CONNECT","PURGE","TRACE"})
+     * @Route("/", methods={"GET","HEAD","POST","OPTIONS","PATCH","CONNECT","PURGE","TRACE"})
      */
     public function index(): Response
     {
@@ -109,5 +147,15 @@ class UriController extends AbstractController
             Response::$statusTexts[Response::HTTP_BAD_REQUEST],
             Response::HTTP_BAD_REQUEST
         );
+    }
+
+    /**
+     * @param Request $request
+     *
+     * @return string
+     */
+    private function getTokenFromRequestHeader(Request $request)
+    {
+        return (string)$request->headers->get('authorization', '');
     }
 }

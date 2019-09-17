@@ -6,6 +6,7 @@ use App\Controller\UriController;
 use PHPUnit\Framework\TestCase;
 use ReflectionMethod;
 use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UriControllerTest extends TestCase
@@ -34,5 +35,19 @@ class UriControllerTest extends TestCase
 
         $this->assertInstanceOf(Response::class, $response);
         $this->assertSame(Response::HTTP_BAD_REQUEST, $response->getStatusCode());
+    }
+
+    public function testGetTokenFromRequestHeader(): void
+    {
+        $request = new Request([], [], [], [], [], ['HTTP_AUTHORIZATION' => 'foobar']);
+
+        $method = new ReflectionMethod(UriController::class, 'getTokenFromRequestHeader');
+        $method->setAccessible(true);
+
+        /** @var string $token */
+        $token = $method->invoke(new UriController(), $request);
+
+        $this->assertInternalType('string', $token);
+        $this->assertSame('foobar', $token);
     }
 }
