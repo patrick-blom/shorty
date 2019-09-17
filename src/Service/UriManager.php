@@ -6,8 +6,10 @@ namespace App\Service;
 
 use App\Entity\Uri;
 use App\Repository\UriRepository;
+use App\Struct\DeleteUriRequest;
 use App\Struct\GetUriRequest;
 use App\Struct\PutUriRequest;
+use App\Struct\UriHashInterface;
 use App\Struct\ValidateUriRequest;
 
 final class UriManager
@@ -29,7 +31,7 @@ final class UriManager
      * Returns an Uri by looking for a hash if nothing is found a default Uri is returned
      *
      * @param \App\Struct\GetUriRequest $request
-     * @param string                    $defaultUrl
+     * @param string $defaultUrl
      *
      * @return \App\Entity\Uri
      * @throws \Doctrine\ORM\NonUniqueResultException
@@ -47,12 +49,12 @@ final class UriManager
     }
 
     /**
-     * @param GetUriRequest $request
+     * @param UriHashInterface $request
      *
      * @return Uri|null
      * @throws \Doctrine\ORM\NonUniqueResultException
      */
-    public function getUri(GetUriRequest $request): ?Uri
+    public function getUri(UriHashInterface $request): ?Uri
     {
         return $this->uriRepository->findUriByShortCode(
             $request->getHash()
@@ -78,13 +80,30 @@ final class UriManager
         if (null === $uri) {
             $uri = new Uri();
             $uri->setOriginalUrl($request->getUrl());
-            $uri->setUrlHash($request->getUrlHash());
+            $uri->setUrlHash($request->getHash());
             $uri->setShortCode($request->getShortCode());
 
             $this->uriRepository->saveUri($uri);
         }
 
         return $uri;
+    }
+
+    /**
+     * @param DeleteUriRequest $request
+     *
+     * @return bool
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function deleteUri(DeleteUriRequest $request): bool
+    {
+        $uri = $this->getUri($request);
+
+        if (null === $uri) {
+            return false;
+        }
+
+        return $this->uriRepository->deleteUri($uri);
     }
 
     /**

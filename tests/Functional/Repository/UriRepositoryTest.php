@@ -38,7 +38,7 @@ class UriRepositoryTest extends WebTestCase
 
         $entity = new Uri();
         $entity->setOriginalUrl($putRequest->getUrl());
-        $entity->setUrlHash($putRequest->getUrlHash());
+        $entity->setUrlHash($putRequest->getHash());
         $entity->setShortCode($putRequest->getShortCode());
 
         $repository->saveUri($entity);
@@ -84,7 +84,7 @@ class UriRepositoryTest extends WebTestCase
 
         $entity = new Uri();
         $entity->setOriginalUrl($putRequest->getUrl());
-        $entity->setUrlHash($putRequest->getUrlHash());
+        $entity->setUrlHash($putRequest->getHash());
         $entity->setShortCode($putRequest->getShortCode());
 
         $repository->saveUri($entity);
@@ -109,6 +109,21 @@ class UriRepositoryTest extends WebTestCase
             'www.bar.com',
             $entity->getOriginalUrl()
         );
+    }
+
+    public function testUriCanBeDeletedThroughRepository()
+    {
+        $this->createDemoRecord();
+
+        /** @var UriRepository $repository */
+        $repository = $this->entityManager->getRepository(Uri::class);
+
+        $hash = sha1('www.bar.com');
+
+        $entity = $repository->findUriByShortOriginalHash($hash);
+        $result = $repository->deleteUri($entity);
+
+        $this->assertTrue($result);
     }
 
     /**

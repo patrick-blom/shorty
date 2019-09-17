@@ -14,7 +14,7 @@ class PutUriRequestTest extends TestCase
 
         $request = new PutUriRequest($url);
 
-        $this->assertSame($hash, $request->getUrlHash());
+        $this->assertSame($hash, $request->getHash());
         $this->assertSame($url, $request->getUrl());
         $this->assertEquals(8, strlen($request->getShortCode()));
         $this->assertSame(substr($hash, 0, 8), $request->getShortCode());
