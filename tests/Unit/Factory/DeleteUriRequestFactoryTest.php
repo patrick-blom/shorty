@@ -4,7 +4,6 @@ namespace App\Tests\Unit\Factory;
 
 use App\Exception\RequestDoesNotContainAValidShortyHashException;
 use App\Factory\DeleteUriRequestFactory;
-use App\Factory\PutUriRequestFactory;
 use App\Struct\DeleteUriRequest;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\HttpFoundation\Request;
