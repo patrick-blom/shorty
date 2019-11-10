@@ -41,12 +41,13 @@ class UriRepositoryTest extends WebTestCase
         $entity->setUrlHash($putRequest->getHash());
         $entity->setShortCode($putRequest->getShortCode());
 
-        $repository->saveUri($entity);
+        $saved = $repository->saveUri($entity);
+        $this->assertTrue($saved);
 
-        $entity = $repository->findUriByShortCode($putRequest->getShortCode());
+        $dataBaseEntity = $repository->findUriByShortCode($putRequest->getShortCode());
         $this->assertSame(
             $putRequest->getShortCode(),
-            $entity->getShortCode()
+            $dataBaseEntity->getShortCode()
         );
     }
 

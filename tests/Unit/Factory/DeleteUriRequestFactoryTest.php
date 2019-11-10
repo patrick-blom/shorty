@@ -19,6 +19,15 @@ class DeleteUriRequestFactoryTest extends TestCase
 
         $this->assertInstanceOf(DeleteUriRequest::class, $request);
         $this->assertSame('86d0952a', $request->getHash());
+
+
+        $content = 12345678;
+        $request = (new DeleteUriRequestFactory())->fromDirtyRequestContent(
+            new Request([], [], [], [], [], [], $content)
+        );
+
+        $this->assertInstanceOf(DeleteUriRequest::class, $request);
+        $this->assertSame('12345678', $request->getHash());
     }
 
     public function testDeleteRequestCreatedFromRequestWithWhitespaces(): void
