@@ -8,6 +8,7 @@
 ###< symfony/framework-bundle ###
 
 .idea
+infection.log
 
 ###> symfony/phpunit-bridge ###
 .phpunit

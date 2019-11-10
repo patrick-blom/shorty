@@ -49,5 +49,17 @@ class UriControllerTest extends TestCase
 
         $this->assertInternalType('string', $token);
         $this->assertSame('foobar', $token);
+
+
+        $request = new Request([], [], [], [], [], ['HTTP_AUTHORIZATION' => 123]);
+
+        $method = new ReflectionMethod(UriController::class, 'getTokenFromRequestHeader');
+        $method->setAccessible(true);
+
+        /** @var string $token */
+        $token = $method->invoke(new UriController(), $request);
+
+        $this->assertInternalType('string', $token);
+        $this->assertSame('123', $token);
     }
 }

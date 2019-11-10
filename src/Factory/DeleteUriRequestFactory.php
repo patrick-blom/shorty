@@ -18,9 +18,9 @@ final class DeleteUriRequestFactory
      */
     public function fromDirtyRequestContent(Request $request): DeleteUriRequest
     {
-        $hash = trim($request->getContent());
+        $hash = trim((string) $request->getContent());
 
-        $validHash = (bool)preg_match('/^[a-z0-9]{8}$/', (string)$hash, $matches);
+        $validHash = (bool)preg_match('/^[a-z0-9]{8}$/', $hash, $matches);
 
         if (false === $validHash) {
             throw new RequestDoesNotContainAValidShortyHashException(

@@ -83,10 +83,10 @@ class UriManagerTest extends WebTestCase
 
         $getRequest    = new GetUriRequest($putRequest->getShortCode());
         /** @var Uri $uri */
-        $uri = $manager->getGuaranteedUri($getRequest);
+        $databaseUri = $manager->getGuaranteedUri($getRequest);
 
-        $this->assertSame($createdEntity->getShortCode(), $uri->getShortCode());
-        $this->assertSame($createdEntity->getOriginalUrl(), $uri->getOriginalUrl());
+        $this->assertSame($createdEntity->getShortCode(), $databaseUri->getShortCode());
+        $this->assertSame($createdEntity->getOriginalUrl(), $databaseUri->getOriginalUrl());
     }
 
     /**
