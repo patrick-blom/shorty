@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Entity\Uri;
+use App\Exception\UriCouldNotBeSavedByUriManagerException;
 use App\Repository\UriRepository;
 use App\Struct\DeleteUriRequest;
 use App\Struct\GetUriRequest;
@@ -68,6 +69,7 @@ final class UriManager
      * @throws \Doctrine\ORM\NonUniqueResultException
      * @throws \Doctrine\ORM\ORMException
      * @throws \Doctrine\ORM\OptimisticLockException
+     * @throws UriCouldNotBeSavedByUriManagerException
      */
     public function putUri(PutUriRequest $request): ?Uri
     {
@@ -83,7 +85,11 @@ final class UriManager
             $uri->setUrlHash($request->getHash());
             $uri->setShortCode($request->getShortCode());
 
-            $this->uriRepository->saveUri($uri);
+            if (false === $this->uriRepository->saveUri($uri)) {
+                throw new UriCouldNotBeSavedByUriManagerException(
+                    'The putUri-Request for: ' . $uri->getOriginalUrl() . ' could not be saved'
+                );
+            }
         }
 
         return $uri;
