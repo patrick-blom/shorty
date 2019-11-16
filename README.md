@@ -119,6 +119,7 @@ are your authorization tokens. So please keep the following recommendations in m
 - always use HTTPS, if you can
 
 ## Testing
+### Regular Testing
 If you want to test Shorty you can this by simply run a regular
 `composer install` and `composer test` in the project root. This will
 install all the dev dependencies and runs the test suite consisting of 
@@ -131,3 +132,13 @@ commands separately:
 - composer phpmd  
 - composer phpcs  
 - composer phpunit  
+
+### Mutation Testing
+To keep the quality of the tests high, Shorty uses mutation testing. 
+The testing tool will be installed with composer dev dependencies. To 
+execute the mutation tests you can simply run: 
+
+- ./vendor/bin/infection
+
+If you're not familiar with mutation testing checkout the 
+[infection](https://infection.github.io/guide/) page for more informations.

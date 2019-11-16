@@ -1,3 +1,12 @@
+## [0.0.5] - 2019-11-14
+### Added
+- Add new exception for mutation testing
+- Add mutation testing with infection
+- Add new unit test for UriManager
+### Changed
+- Increase the quality of several tests
+- Edit the README.md 
+
 ## [0.0.4] - 2019-09-24
 ### Added
 - Add the possibility to delete a created short link
