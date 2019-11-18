@@ -1,3 +1,15 @@
+## Unreleased - Experimental
+### Changed
+- update Kernel for usage in App Engine
+- update migrations for MySql usage
+- edit environment to switch database engines
+- update to latest dependencies
+- update README file with instructions
+
+### Added
+- Add app.yaml
+- Add .gcloudignore file
+
 ## [0.0.6] - 2019-11-18
 ### Changed
 - Set db field length of url hash to 128 characters

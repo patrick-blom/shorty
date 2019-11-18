@@ -15,3 +15,14 @@
 
 # PHP Composer dependencies:
 /vendor/
+
+# Remove unused files and directories
+.idea
+.env.test
+.phpcs-cache
+infection.json.dist
+phpcs.xml.dist
+phpunit.xml.dist
+/bin/
+/var/
+/tests/
