@@ -33,7 +33,7 @@ class Uri
     private $shortCode;
 
     /**
-     * @ORM\Column(type="string", length=32)
+     * @ORM\Column(type="string", length=128)
      */
     private $UrlHash;
 

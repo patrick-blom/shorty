@@ -1,3 +1,7 @@
+## [0.0.6] - 2019-11-18
+### Changed
+- Set db field length of url hash to 128 characters
+
 ## [0.0.5] - 2019-11-14
 ### Added
 - Add new exception for mutation testing

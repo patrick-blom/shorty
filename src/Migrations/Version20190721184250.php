@@ -30,7 +30,7 @@ final class Version20190721184250 extends AbstractMigration
                         id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, 
                         original_url CLOB NOT NULL, 
                         short_code VARCHAR(8) NOT NULL, 
-                        url_hash VARCHAR(32) NOT NULL)'
+                        url_hash VARCHAR(128) NOT NULL)'
         );
         $this->addSql('CREATE INDEX create_idx ON uri (url_hash)');
         $this->addSql('CREATE INDEX read_idx ON uri (short_code)');
