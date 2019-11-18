@@ -313,7 +313,7 @@
         "version": "v1.11.0"
     },
     "symfony/process": {
-        "version": "v4.3.6"
+        "version": "v4.3.8"
     },
     "symfony/routing": {
         "version": "4.2",

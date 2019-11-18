@@ -142,3 +142,26 @@ execute the mutation tests you can simply run:
 
 If you're not familiar with mutation testing checkout the 
 [infection](https://infection.github.io/guide/) page for more informations.
+
+## Experimental
+### Google App Engine
+
+This type of Shorty can be used in the Google App Engine. Before you run
+Shorty in Google App Engine you have to prepare the following things.
+
+#### First
+By default Shorty uses sqlite as database which is not available in GCP.
+So you have to create a cloud sql database in GCP. So fire up the smallest
+intance of cloud sql server and connect to the server and create a database 
+called shorty. Because App Engine does not support doctrine migrations go to 
+the migration file located in `src/Migrations/Version20190721184250.php` 
+copy the create table statement and execute it on your cloud sql database. 
+Further create a database user which is allowed to use the database. 
+
+#### Second
+Create a new GCP Project and App Engine Standard environment. Now change 
+the DATABASE_URL, the APP_SECRET, the PUT_TOKEN & DELETE_TOKEN in the 
+`app.yaml` and the `.env` file to your matching values. Select now your new
+project in the gcloud commandline tool and run `gcloud app deploy`. 
+
+Now you're running Shorty in Google App Engine

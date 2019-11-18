@@ -1,0 +1,29 @@
+runtime: php73
+
+env_variables:
+  APP_ENV: prod
+  APP_SECRET: f9faeb976a49fd83f90f4485d25b8cef
+  DATABASE_URL: "mysql://example_user:bad_password@localhost?unix_socket=/cloudsql/your-cloud-sql-instance-name;dbname=shorty"
+  PUT_TOKEN: 5449f071773861dca4d3b459aa79fcf5
+  DELETE_TOKEN: 5449f071773861dca4d3b459aa79fcf5
+
+handlers:
+  # Declare the build and bundles directory as static assets to be served by the
+  # App Engine CDN.
+  - url: /build
+    static_dir: public/build
+  - url: /bundles
+    static_dir: public/bundles
+
+  # Declare any media files in the public directory as static assets as well.
+  - url: /(.*\.(ico|txt|gif|png|jpg))$
+    static_files: public/\1
+    upload: public/.*\.(ico|txt|gif|png|jpg)$
+
+# This sample incurs costs to run on the App Engine flexible environment.
+# The settings below are to reduce costs during testing and are not appropriate
+# for production use. For more information, see:
+# https://cloud.google.com/appengine/docs/flexible/python/configuring-your-app-with-app-yaml
+automatic_scaling:
+  min_instances: 0
+  max_instances: 1
