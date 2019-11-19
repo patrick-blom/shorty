@@ -1,0 +1,16 @@
+language: php
+
+notifications:
+  email: false
+
+php:
+  - "7.1"
+  - "7.2"
+  - "7.3"
+
+install:
+  - composer install
+
+script:
+  - find {src,tests} -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
+  - composer test
