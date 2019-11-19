@@ -58,10 +58,10 @@
             "@auto-scripts"
         ],
         "test": [
-            "@php vendor/bin/phpstan analyse -l 3 src",
-            "@php vendor/bin/phpcs --standard=phpcs.xml.dist --extensions=php src/",
-            "@php vendor/bin/simple-phpunit -c phpunit.xml.dist tests/",
-            "@php vendor/bin/phpmd src/ text cleancode,codesize"
+            "@phpstan",
+            "@phpcs",
+            "@phpunit",
+            "@phpmd"
         ],
         "phpstan": [
             "@php vendor/bin/phpstan analyse -l 3 src"
