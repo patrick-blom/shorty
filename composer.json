@@ -67,7 +67,7 @@
             "@php vendor/bin/phpstan analyse -l 3 src"
         ],
         "phpcs": [
-            "@php vendor/bin/phpcs --standard=phpcs.xml.dist --extensions=php src/"
+            "@php vendor/bin/phpcs --standard=phpcs.xml.dist --extensions=php src/ tests/"
         ],
         "phpunit": [
             "@php vendor/bin/simple-phpunit -c phpunit.xml.dist tests/"
