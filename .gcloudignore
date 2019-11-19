@@ -23,6 +23,5 @@
 infection.json.dist
 phpcs.xml.dist
 phpunit.xml.dist
-/bin/
 /var/
 /tests/
