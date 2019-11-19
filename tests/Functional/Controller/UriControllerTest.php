@@ -251,4 +251,3 @@ class UriControllerTest extends WebTestCase
         $this->entityManager = null; // avoid memory leaks
     }
 }
-

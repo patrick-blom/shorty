@@ -10,7 +10,6 @@ use App\Struct\GetUriRequest;
 use App\Struct\PutUriRequest;
 use PHPUnit\Framework\TestCase;
 
-
 class UriManagerTest extends TestCase
 {
     /**
