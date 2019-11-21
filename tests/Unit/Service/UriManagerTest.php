@@ -52,6 +52,7 @@ class UriManagerTest extends TestCase
             new PutUriRequest('http://www.blabla.com')
         );
 
+        $this->assertNull($uri->getId());
         $this->assertSame('http://www.blabla.com', $uri->getOriginalUrl());
         $this->assertSame('a078b1f4', $uri->getShortCode());
         $this->assertSame('a078b1f4bc1ec3defc681e5f3fc89c7b71a65369', $uri->getUrlHash());
