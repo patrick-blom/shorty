@@ -1,4 +1,4 @@
-## Shorty
+## Shorty [![Build Status](https://travis-ci.org/patrick-blom/shorty.svg?branch=master)](https://travis-ci.org/patrick-blom/shorty)
 Shorty is a very small, self hosted, symfony application which provides
 short links instead of long urls. This makes url sharing really simple.
 So if you have a url like
