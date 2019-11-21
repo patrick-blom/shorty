@@ -14,3 +14,4 @@ install:
 script:
   - find {src,tests} -name "*.php" -print0 | xargs -0 -n1 -P8 php -l
   - composer test
+  - vendor/bin/infection --min-msi=80 --min-covered-msi=82

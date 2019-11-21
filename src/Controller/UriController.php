@@ -156,6 +156,6 @@ class UriController extends AbstractController
      */
     private function getTokenFromRequestHeader(Request $request): string
     {
-        return (string)$request->headers->get('authorization', '');
+        return $request->headers->get('authorization', '');
     }
 }
