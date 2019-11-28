@@ -1,3 +1,14 @@
+## [0.1.0] - 2019-11-28
+### Added
+- Add travis build for PHP 7.2 & PHP 7.3
+### Changed
+- Update symfony dependencies
+- Fix phpcs hints in tests
+- Update composer.json commands
+- Edit the README.md 
+### Removed
+- Removed support for PHP 7.1
+
 ## [0.0.6] - 2019-11-18
 ### Changed
 - Set db field length of url hash to 128 characters
