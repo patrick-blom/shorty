@@ -124,7 +124,7 @@
         "version": "2.5.2"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.2.15"
     },
     "phpmd/phpmd": {
         "version": "2.7.0"
