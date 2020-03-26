@@ -20,6 +20,7 @@ final class DeleteUriRequestFactory
     {
         $hash = trim((string) $request->getContent());
 
+        $matches = [];
         $validHash = (bool)preg_match('/^[a-z0-9]{8}$/', $hash, $matches);
 
         if (false === $validHash) {
