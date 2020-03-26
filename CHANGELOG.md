@@ -1,3 +1,13 @@
+## [0.2.0] - 2020-03-26
+### Added
+- Add new method in UriController for fetch Response status texts
+### Changed
+- Update symfony from 4.3 to 4.4 incl. dependencies
+- Fix phpcs hints for undefined variables
+- Edit doctrine config to prevent deprecation warnings
+- Edit the README.md 
+- Edit Controller to prevent deprecation warnings
+
 ## [0.1.0] - 2019-11-28
 ### Added
 - Add travis build for PHP 7.2 & PHP 7.3
