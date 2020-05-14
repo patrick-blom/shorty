@@ -221,14 +221,14 @@ class UriControllerTest extends WebTestCase
         // drop db
         $input = new ArrayInput([
             'command' => 'doctrine:database:drop',
-            '--force' => true
+            '--force' => true,
 
         ]);
         $application->run($input, new NullOutput());
 
         // create db
         $input = new ArrayInput([
-            'command' => 'doctrine:database:create'
+            'command' => 'doctrine:database:create',
 
         ]);
         $application->run($input, new NullOutput());
@@ -236,7 +236,7 @@ class UriControllerTest extends WebTestCase
         // run migrations
         $input = new ArrayInput([
             'command'          => 'doctrine:migrations:migrate',
-            '--no-interaction' => true
+            '--no-interaction' => true,
 
         ]);
         $application->run($input, new NullOutput());
