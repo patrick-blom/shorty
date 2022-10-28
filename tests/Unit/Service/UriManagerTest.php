@@ -76,7 +76,7 @@ class UriManagerTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->uriRepository = $this->createMock(UriRepository::class);
 
