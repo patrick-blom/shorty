@@ -72,7 +72,6 @@ class UriControllerTest extends WebTestCase
             ['HTTP_AUTHORIZATION' => '$ecretf0rt3st'],
             $url
         );
-
         $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
 
         $shortCode = $this->client->getResponse()->getContent();
