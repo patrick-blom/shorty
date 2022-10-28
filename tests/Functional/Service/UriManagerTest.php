@@ -92,7 +92,7 @@ class UriManagerTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $kernel = self::bootKernel();
 
@@ -140,7 +140,7 @@ class UriManagerTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 

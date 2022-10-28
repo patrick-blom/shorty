@@ -130,7 +130,7 @@ class UriRepositoryTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $kernel = self::bootKernel();
 
@@ -178,7 +178,7 @@ class UriRepositoryTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 

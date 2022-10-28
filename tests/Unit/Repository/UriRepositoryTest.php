@@ -4,7 +4,7 @@ namespace App\Tests\Unit\Service;
 
 use App\Entity\Uri;
 use App\Repository\UriRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
 use Doctrine\ORM\ORMException;
@@ -84,7 +84,7 @@ class UriRepositoryTest extends TestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $metadataMock = $this->createMock(ClassMetadata::class);
 

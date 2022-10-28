@@ -193,7 +193,7 @@ class UriControllerTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         self::ensureKernelShutdown();
 
@@ -245,7 +245,7 @@ class UriControllerTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 
