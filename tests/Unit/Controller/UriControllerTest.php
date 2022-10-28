@@ -47,7 +47,7 @@ class UriControllerTest extends TestCase
         /** @var string $token */
         $token = $method->invoke(new UriController(), $request);
 
-        $this->assertInternalType('string', $token);
+        $this->assertIsString('string', $token);
         $this->assertSame('foobar', $token);
 
 
@@ -59,7 +59,7 @@ class UriControllerTest extends TestCase
         /** @var string $token */
         $token = $method->invoke(new UriController(), $request);
 
-        $this->assertInternalType('string', $token);
+        $this->assertIsString('string', $token);
         $this->assertSame('123', $token);
     }
 }

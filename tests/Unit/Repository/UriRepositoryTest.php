@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Tests\Unit\Service;
+namespace App\Tests\Unit\Repository;
 
 use App\Entity\Uri;
 use App\Repository\UriRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\Mapping\ClassMetadata;
-use Doctrine\ORM\ORMException;
+use Doctrine\ORM\Exception\ORMException;
 use PHPUnit\Framework\TestCase;
 
 class UriRepositoryTest extends TestCase
