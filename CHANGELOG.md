@@ -1,6 +1,17 @@
+## [0.3.0] - 2022-11-03
+### Changed
+- Update symfony from 4.4 to 5.4 LTS incl. dependencies
+- Update for php 8.1
+- Add test credentials to .env.test
+- Prevent migrations from autoloading
+### Removed
+- Removed support for PHP 7.2
+- Removed support for PHP 7.3
+- Removed support for PHP 7.4
+
 ## [0.2.0] - 2020-03-26
 ### Added
-- Add new method in UriController for fetch Response status texts
+- Add new method in UriController to fetch Response status texts
 ### Changed
 - Update symfony from 4.3 to 4.4 incl. dependencies
 - Fix phpcs hints for undefined variables
