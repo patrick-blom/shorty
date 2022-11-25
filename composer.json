@@ -75,7 +75,7 @@
             "@phpmd"
         ],
         "phpstan": [
-            "@php vendor/bin/phpstan analyse -l 3 src"
+            "@php vendor/bin/phpstan analyse -l 5 --configuration phpstan.neon src"
         ],
         "phpcs": [
             "@php vendor/bin/phpcs --standard=phpcs.xml.dist --extensions=php src/ tests/"
