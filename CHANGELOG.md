@@ -1,3 +1,14 @@
+## [0.3.1] - 2022-11-25
+### Added
+- GitHub actions pipeline for php 8.0 & 8.1
+### Changed
+- PHPStan lvl from 3 to 5
+- Edit PHPUnit config to prevent deprecation warnings
+### Removed
+- Removed Travis build
+- Removed fixed platform requirement
+- Deleted unused docker files for doctrine
+
 ## [0.3.0] - 2022-11-03
 ### Changed
 - Update symfony from 4.4 to 5.4 LTS incl. dependencies
