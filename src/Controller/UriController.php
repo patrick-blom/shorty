@@ -101,7 +101,7 @@ class UriController extends AbstractController
             $deleteUriRequest = (new DeleteUriRequestFactory())->fromDirtyRequestContent($request);
             if ($manager->deleteUri($deleteUriRequest)) {
                 $response = new Response(
-                    Response::$statusTexts[Response::HTTP_GONE],
+                    $this->getStatusTextForResponseCode(Response::HTTP_GONE),
                     Response::HTTP_GONE
                 );
             }
@@ -131,7 +131,7 @@ class UriController extends AbstractController
     public function index(): Response
     {
         return new Response(
-            Response::$statusTexts[Response::HTTP_I_AM_A_TEAPOT],
+            $this->getStatusTextForResponseCode(Response::HTTP_I_AM_A_TEAPOT),
             Response::HTTP_I_AM_A_TEAPOT
         );
     }
@@ -144,7 +144,7 @@ class UriController extends AbstractController
     private function createBadRequestResponse(): Response
     {
         return new Response(
-            Response::$statusTexts[Response::HTTP_BAD_REQUEST],
+            $this->getStatusTextForResponseCode(Response::HTTP_BAD_REQUEST),
             Response::HTTP_BAD_REQUEST
         );
     }
@@ -156,6 +156,22 @@ class UriController extends AbstractController
      */
     private function getTokenFromRequestHeader(Request $request): string
     {
-        return (string)$request->headers->get('authorization', '');
+        return $request->headers->get('authorization', '');
+    }
+
+    /**
+     * @param int $responseCode
+     *
+     * @return string
+     */
+    private function getStatusTextForResponseCode(int $responseCode): string
+    {
+        $statusTexts = Response::$statusTexts;
+
+        if (array_key_exists($responseCode, $statusTexts)) {
+            return $statusTexts[$responseCode];
+        }
+
+        return '';
     }
 }

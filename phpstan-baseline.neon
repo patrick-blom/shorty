@@ -1,0 +1,6 @@
+parameters:
+	ignoreErrors:
+		-
+			message: "#^Property App\\\\Entity\\\\Uri\\:\\:\\$id is never written, only read\\.$#"
+			count: 1
+			path: src/Entity/Uri.php

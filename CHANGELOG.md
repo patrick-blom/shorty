@@ -1,14 +1,45 @@
-## Unreleased - Experimental
-### Changed
-- update Kernel for usage in App Engine
-- update migrations for MySql usage
-- edit environment to switch database engines
-- update to latest dependencies
-- update README file with instructions
-
+## [0.3.1] - 2022-11-25
 ### Added
-- Add app.yaml
-- Add .gcloudignore file
+- GitHub actions pipeline for php 8.0 & 8.1
+### Changed
+- PHPStan lvl from 3 to 5
+- Edit PHPUnit config to prevent deprecation warnings
+### Removed
+- Removed Travis build
+- Removed fixed platform requirement
+- Deleted unused docker files for doctrine
+
+## [0.3.0] - 2022-11-03
+### Changed
+- Update symfony from 4.4 to 5.4 LTS incl. dependencies
+- Update for php 8.1
+- Add test credentials to .env.test
+- Prevent migrations from autoloading
+### Removed
+- Removed support for PHP 7.2
+- Removed support for PHP 7.3
+- Removed support for PHP 7.4
+
+## [0.2.0] - 2020-03-26
+### Added
+- Add new method in UriController to fetch Response status texts
+### Changed
+- Update symfony from 4.3 to 4.4 incl. dependencies
+- Fix phpcs hints for undefined variables
+- Edit doctrine config to prevent deprecation warnings
+- Edit the README.md 
+- Edit Controller to prevent deprecation warnings
+
+## [0.1.0] - 2019-11-28
+### Added
+- Add travis build for PHP 7.2 & PHP 7.3
+### Changed
+- Update symfony dependencies
+- Fix phpcs hints in tests
+- Update composer.json commands
+- Edit the README.md 
+### Removed
+- Removed support for PHP 7.1
 
 ## [0.0.6] - 2019-11-18
 ### Changed

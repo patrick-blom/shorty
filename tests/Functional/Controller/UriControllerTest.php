@@ -16,52 +16,55 @@ class UriControllerTest extends WebTestCase
      */
     private $entityManager;
 
+    /**
+     * @var \Symfony\Bundle\FrameworkBundle\KernelBrowser
+     */
+    private $client;
+
     public function testIndexAction(): void
     {
-        $client = static::createClient();
-        $client->request('GET', '/');
 
-        $this->assertEquals('418', $client->getResponse()->getStatusCode());
+        $this->client->request('GET', '/');
 
-        $client->request('POST', '/');
+        $this->assertEquals('418', $this->client->getResponse()->getStatusCode());
 
-        $this->assertEquals('418', $client->getResponse()->getStatusCode());
+        $this->client->request('POST', '/');
 
-        $client->request('PATCH', '/');
+        $this->assertEquals('418', $this->client->getResponse()->getStatusCode());
 
-        $this->assertEquals('418', $client->getResponse()->getStatusCode());
+        $this->client->request('PATCH', '/');
 
-        $client->request('OPTIONS', '/');
+        $this->assertEquals('418', $this->client->getResponse()->getStatusCode());
 
-        $this->assertEquals('418', $client->getResponse()->getStatusCode());
+        $this->client->request('OPTIONS', '/');
 
-        $client->request('CONNECT', '/');
+        $this->assertEquals('418', $this->client->getResponse()->getStatusCode());
 
-        $this->assertEquals('418', $client->getResponse()->getStatusCode());
+        $this->client->request('CONNECT', '/');
 
-        $client->request('PURGE', '/');
+        $this->assertEquals('418', $this->client->getResponse()->getStatusCode());
 
-        $this->assertEquals('418', $client->getResponse()->getStatusCode());
+        $this->client->request('PURGE', '/');
 
-        $client->request('TRACE', '/');
+        $this->assertEquals('418', $this->client->getResponse()->getStatusCode());
 
-        $this->assertEquals('418', $client->getResponse()->getStatusCode());
+        $this->client->request('TRACE', '/');
+
+        $this->assertEquals('418', $this->client->getResponse()->getStatusCode());
     }
 
     public function testGetUriActionWithInvalidShortCode(): void
     {
-        $client = static::createClient();
-        $client->request('GET', '/foobarbz');
+        $this->client->request('GET', '/foobarbz');
 
-        $this->assertEquals('301', $client->getResponse()->getStatusCode());
+        $this->assertEquals('301', $this->client->getResponse()->getStatusCode());
     }
 
     public function testGetUriActionWithShortCode(): void
     {
         $url = 'https://www.example.com';
 
-        $client = static::createClient();
-        $client->request(
+        $this->client->request(
             'PUT',
             '/',
             [],
@@ -69,16 +72,15 @@ class UriControllerTest extends WebTestCase
             ['HTTP_AUTHORIZATION' => '$ecretf0rt3st'],
             $url
         );
+        $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
 
-        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $shortCode = $this->client->getResponse()->getContent();
 
-        $shortCode = $client->getResponse()->getContent();
-
-        $client->request('GET', '/' . $shortCode);
-        $this->assertEquals('301', $client->getResponse()->getStatusCode());
+        $this->client->request('GET', '/' . $shortCode);
+        $this->assertEquals('301', $this->client->getResponse()->getStatusCode());
 
         /** @var  RedirectResponse $response */
-        $response = $client->getResponse();
+        $response = $this->client->getResponse();
         $this->assertInstanceOf(RedirectResponse::class, $response);
         $this->assertEquals($url, $response->getTargetUrl());
     }
@@ -87,8 +89,7 @@ class UriControllerTest extends WebTestCase
     {
         $url = 'https://www.example.com';
 
-        $client = static::createClient();
-        $client->request(
+        $this->client->request(
             'PUT',
             '/',
             [],
@@ -97,15 +98,14 @@ class UriControllerTest extends WebTestCase
             $url
         );
 
-        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
     }
 
     public function testPutUriActionWithNoCredentials(): void
     {
         $url = 'https://www.example.com';
 
-        $client = static::createClient();
-        $client->request(
+        $this->client->request(
             'PUT',
             '/',
             [],
@@ -114,15 +114,14 @@ class UriControllerTest extends WebTestCase
             $url
         );
 
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertEquals(400, $this->client->getResponse()->getStatusCode());
     }
 
     public function testPutUriActionWithNoVaildUrl(): void
     {
         $url = 'this is not a url';
 
-        $client = static::createClient();
-        $client->request(
+        $this->client->request(
             'PUT',
             '/',
             [],
@@ -131,15 +130,14 @@ class UriControllerTest extends WebTestCase
             $url
         );
 
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertEquals(400, $this->client->getResponse()->getStatusCode());
     }
 
     public function testDeleteUriActionWithValidShortCode(): void
     {
         $url = 'https://www.delete.me';
 
-        $client = static::createClient();
-        $client->request(
+        $this->client->request(
             'PUT',
             '/',
             [],
@@ -148,11 +146,11 @@ class UriControllerTest extends WebTestCase
             $url
         );
 
-        $this->assertEquals(201, $client->getResponse()->getStatusCode());
+        $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
 
-        $hash = $client->getResponse()->getContent();
+        $hash = $this->client->getResponse()->getContent();
 
-        $client->request(
+        $this->client->request(
             'DELETE',
             '/',
             [],
@@ -161,14 +159,13 @@ class UriControllerTest extends WebTestCase
             $hash
         );
 
-        $this->assertEquals(410, $client->getResponse()->getStatusCode());
-        $this->assertEquals('Gone', $client->getResponse()->getContent());
+        $this->assertEquals(410, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals('Gone', $this->client->getResponse()->getContent());
     }
 
     public function testDeleteUriActionWithRubbishCode(): void
     {
-        $client = static::createClient();
-        $client->request(
+        $this->client->request(
             'DELETE',
             '/',
             [],
@@ -177,9 +174,9 @@ class UriControllerTest extends WebTestCase
             'nocode'
         );
 
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertEquals(400, $this->client->getResponse()->getStatusCode());
 
-        $client->request(
+        $this->client->request(
             'DELETE',
             '/',
             [],
@@ -188,15 +185,19 @@ class UriControllerTest extends WebTestCase
             '00code00'
         );
 
-        $this->assertEquals(400, $client->getResponse()->getStatusCode());
+        $this->assertEquals(400, $this->client->getResponse()->getStatusCode());
     }
 
 
     /**
      * {@inheritDoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
+        self::ensureKernelShutdown();
+
+        $this->client = static::createClient();
+
         $kernel = self::bootKernel();
 
         $this->initDatabase($kernel);
@@ -243,7 +244,7 @@ class UriControllerTest extends WebTestCase
     /**
      * {@inheritDoc}
      */
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 
@@ -251,4 +252,3 @@ class UriControllerTest extends WebTestCase
         $this->entityManager = null; // avoid memory leaks
     }
 }
-
