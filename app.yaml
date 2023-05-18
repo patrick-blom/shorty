@@ -1,4 +1,4 @@
-runtime: php73
+runtime: php81
 
 env_variables:
   APP_ENV: prod
