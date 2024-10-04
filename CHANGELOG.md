@@ -1,3 +1,11 @@
+## [0.4.1] - 2024-10-04
+### Added
+- 
+### Changed
+- Update to PHP attribute routes
+### Removed
+-
+
 ## [0.4.0] - 2024-10-04
 ### Added
 - GitHub actions pipeline for PHP 8.3

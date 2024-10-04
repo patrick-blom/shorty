@@ -20,12 +20,12 @@ use Symfony\Component\Routing\Annotation\Route;
 class UriController extends AbstractController
 {
     /**
-     * @Route("/{short_code}", methods={"GET"})
      * @param Request $request
      * @param UriManager $manager
      *
      * @return RedirectResponse
      */
+    #[Route('/{short_code}', methods: ['GET'])]
     public function getUri(Request $request, UriManager $manager): RedirectResponse
     {
         $shortCode = $request->attributes->get('short_code');
@@ -43,15 +43,15 @@ class UriController extends AbstractController
         return $this->createRedirectResponseTo('/');
     }
 
+
     /**
-     * @Route("/", methods={"PUT"})
-     *
      * @param Request $request
      * @param UriManager $manager
      * @param TokenAuthenticationInterface $basicPutAuthentication
      *
      * @return Response
      */
+    #[Route('/', methods: ['PUT'])]
     public function putUri(
         Request $request,
         UriManager $manager,
@@ -77,14 +77,13 @@ class UriController extends AbstractController
     }
 
     /**
-     * @Route("/", methods={"DELETE"})
-     *
      * @param Request $request
      * @param UriManager $manager
      * @param TokenAuthenticationInterface $basicDeleteAuthentication
      *
      * @return Response
      */
+    #[Route('/', methods: ['DELETE'])]
     public function deleteUri(
         Request $request,
         UriManager $manager,
@@ -113,14 +112,13 @@ class UriController extends AbstractController
     }
 
     /**
-     * @Route("/{short_code}", methods={"DELETE"})
-     *
      * @param Request $request
      * @param UriManager $manager
      * @param TokenAuthenticationInterface $basicDeleteAuthentication
      *
      * @return Response
      */
+    #[Route('/{short_code}', methods: ['DELETE'])]
     public function deleteUriByPath(
         Request $request,
         UriManager $manager,
@@ -161,9 +159,7 @@ class UriController extends AbstractController
         return new RedirectResponse($uri, Response::HTTP_MOVED_PERMANENTLY);
     }
 
-    /**
-     * @Route("/", methods={"GET","HEAD","POST","OPTIONS","PATCH","CONNECT","PURGE","TRACE"})
-     */
+    #[Route('/', methods: ['GET','HEAD','POST','OPTIONS','PATCH','CONNECT','PURGE','TRACE'])]
     public function index(): Response
     {
         return new Response(
