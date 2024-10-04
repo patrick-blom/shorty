@@ -163,6 +163,35 @@ class UriControllerTest extends WebTestCase
         $this->assertEquals('Gone', $this->client->getResponse()->getContent());
     }
 
+    public function testDeletePathUriActionWithValidShortCode(): void
+    {
+        $url = 'https://www.delete.me';
+
+        $this->client->request(
+            'PUT',
+            '/',
+            [],
+            [],
+            ['HTTP_AUTHORIZATION' => '$ecretf0rt3st'],
+            $url
+        );
+
+        $this->assertEquals(201, $this->client->getResponse()->getStatusCode());
+
+        $hash = $this->client->getResponse()->getContent();
+
+        $this->client->request(
+            'DELETE',
+            '/'. $hash,
+            [],
+            [],
+            ['HTTP_AUTHORIZATION' => '$ecretf0rt3st']
+        );
+
+        $this->assertEquals(410, $this->client->getResponse()->getStatusCode());
+        $this->assertEquals('Gone', $this->client->getResponse()->getContent());
+    }
+
     public function testDeleteUriActionWithRubbishCode(): void
     {
         $this->client->request(
@@ -183,6 +212,16 @@ class UriControllerTest extends WebTestCase
             [],
             ['HTTP_AUTHORIZATION' => '$ecretf0rt3st'],
             '00code00'
+        );
+
+        $this->assertEquals(400, $this->client->getResponse()->getStatusCode());
+
+        $this->client->request(
+            'DELETE',
+            '/00code00',
+            [],
+            [],
+            ['HTTP_AUTHORIZATION' => '$ecretf0rt3st']
         );
 
         $this->assertEquals(400, $this->client->getResponse()->getStatusCode());
