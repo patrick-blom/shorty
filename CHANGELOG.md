@@ -5,6 +5,7 @@
 ### Changed
 - Set php requirements to PHP 8.3
 - Update symfony from 5.4 LTS to 6.4 LTS incl. dependencies
+- Edit the README.md
 ### Removed
 - GitHub actions pipeline for PHP 8.0 & 8.1
 
