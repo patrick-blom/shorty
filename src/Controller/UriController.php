@@ -112,6 +112,42 @@ class UriController extends AbstractController
         return $response;
     }
 
+    /**
+     * @Route("/{short_code}", methods={"DELETE"})
+     *
+     * @param Request $request
+     * @param UriManager $manager
+     * @param TokenAuthenticationInterface $basicDeleteAuthentication
+     *
+     * @return Response
+     */
+    public function deleteUriByPath(
+        Request $request,
+        UriManager $manager,
+        TokenAuthenticationInterface $basicDeleteAuthentication
+    ): Response {
+        $token = $this->getTokenFromRequestHeader($request);
+        if (false === $basicDeleteAuthentication->validateTokenAuthentication($token)) {
+            return $this->createBadRequestResponse();
+        }
+
+        $response = $this->createBadRequestResponse();
+
+        try {
+            $shortCode = $request->attributes->get('short_code');
+            $deleteUriRequest = (new DeleteUriRequestFactory())->fromString($shortCode);
+            if ($manager->deleteUri($deleteUriRequest)) {
+                $response = new Response(
+                    $this->getStatusTextForResponseCode(Response::HTTP_GONE),
+                    Response::HTTP_GONE
+                );
+            }
+        } catch (Exception $exception) {
+            return $this->createBadRequestResponse();
+        }
+
+        return $response;
+    }
 
     /**
      * Create redirect response to given uri

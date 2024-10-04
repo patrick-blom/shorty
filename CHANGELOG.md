@@ -1,6 +1,7 @@
 ## [0.4.0] - 2024-10-04
 ### Added
 - GitHub actions pipeline for PHP 8.3
+- Delete by path possibility, cause Akamai blocks DELETE requests with bodies 
 ### Changed
 - Set php requirements to PHP 8.3
 - Update symfony from 5.4 LTS to 6.4 LTS incl. dependencies
