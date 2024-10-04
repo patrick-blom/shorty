@@ -24,6 +24,7 @@ class PutUriRequestFactoryTest extends TestCase
     public function testCreatingUrlOnRubbish(): void
     {
         $this->expectException(RequestDoesNotContainAValidUrlException::class);
+        $this->expectExceptionMessage('ThisIsNotAUrl: is not a valid url');
 
         $content = 'ThisIsNotAUrl';
         (new PutUriRequestFactory())->fromDirtyRequestContent(

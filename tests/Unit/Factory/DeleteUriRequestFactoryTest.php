@@ -44,6 +44,7 @@ class DeleteUriRequestFactoryTest extends TestCase
     public function testCreatingDeleteRequestOnRubbish(): void
     {
         $this->expectException(RequestDoesNotContainAValidShortyHashException::class);
+        $this->expectExceptionMessage('86d0 952a: is not a valid shorty hash');
 
         $content = '86d0 952a';
         (new DeleteUriRequestFactory())->fromDirtyRequestContent(
@@ -51,6 +52,7 @@ class DeleteUriRequestFactoryTest extends TestCase
         );
 
         $this->expectException(RequestDoesNotContainAValidShortyHashException::class);
+        $this->expectExceptionMessage('86d02: is not a valid shorty hash');
 
         $content = '86d02';
         (new DeleteUriRequestFactory())->fromDirtyRequestContent(
@@ -58,6 +60,7 @@ class DeleteUriRequestFactoryTest extends TestCase
         );
 
         $this->expectException(RequestDoesNotContainAValidShortyHashException::class);
+        $this->expectExceptionMessage('86d0//52a: is not a valid shorty hash');
 
         $content = '86d0//52a';
         (new DeleteUriRequestFactory())->fromDirtyRequestContent(
@@ -66,6 +69,7 @@ class DeleteUriRequestFactoryTest extends TestCase
 
 
         $this->expectException(RequestDoesNotContainAValidShortyHashException::class);
+        $this->expectExceptionMessage(': is not a valid shorty hash');
 
         $content = null;
         (new DeleteUriRequestFactory())->fromDirtyRequestContent(
