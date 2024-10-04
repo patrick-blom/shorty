@@ -106,6 +106,14 @@ curl -X DELETE -H 'Authorization: 5449f071773861dca4d3b459aa79fcf5' -d '950a0065
 http://127.0.0.1:8000: Your running Shorty
 ``` 
 
+You can also delete a short link by passing the short code to the path of the uri. This was added because a body on a
+DELETE call is not always accepted. E.g. Akamai does not allow DELETE requests which includes a body. The Authorization
+Header is always required.
+
+```
+curl -X DELETE -H 'Authorization: 5449f071773861dca4d3b459aa79fcf5' http://127.0.0.1:8000/950a0065
+```
+
 If everything works as expected, Shorty will return a 410 HTTP Gone Response. 
 Otherwise you will end up with an 400 HTTP Bad Request Response.
 

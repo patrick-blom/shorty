@@ -1,6 +1,17 @@
+## [0.4.0] - 2024-10-04
+### Added
+- GitHub actions pipeline for PHP 8.3
+- Delete by path possibility, cause Akamai blocks DELETE requests with bodies 
+### Changed
+- Set php requirements to PHP 8.3
+- Update symfony from 5.4 LTS to 6.4 LTS incl. dependencies
+- Edit the README.md
+### Removed
+- GitHub actions pipeline for PHP 8.0 & 8.1
+
 ## [0.3.1] - 2022-11-25
 ### Added
-- GitHub actions pipeline for php 8.0 & 8.1
+- GitHub actions pipeline for PHP 8.0 & 8.1
 ### Changed
 - PHPStan lvl from 3 to 5
 - Edit PHPUnit config to prevent deprecation warnings
@@ -12,7 +23,7 @@
 ## [0.3.0] - 2022-11-03
 ### Changed
 - Update symfony from 4.4 to 5.4 LTS incl. dependencies
-- Update for php 8.1
+- Update for PHP 8.1
 - Add test credentials to .env.test
 - Prevent migrations from autoloading
 ### Removed
